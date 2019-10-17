@@ -19,7 +19,7 @@ public class CKeyChecker {
     ShardedJedisSentinelPool pool;
 
     private static final Logger LOG = LoggerFactory.getLogger(CKeyChecker.class);
-    private static final String DEFAULT_HOST = "ejabhost1";
+    private static final String DEFAULT_HOST = "";
     private static final String ARGS_SPLITTER = "&";
     private static final String ARG_JOINER = "=";
     private static final String JOINER_USER_HOST = "@";
@@ -73,8 +73,7 @@ public class CKeyChecker {
     }
 
     private boolean checkUserAuth(String user, String t, String k, Set<String> redisTokens) {
-        //需要ckey验证的时候打开
-        /*String lowKey = k.toLowerCase();
+        String lowKey = k.toLowerCase();
         if (redisTokens.isEmpty()) {
             return false;
         }
@@ -85,7 +84,6 @@ public class CKeyChecker {
             }
         }
         LOG.info("用户{},验证不通过", user);
-        return false;*/
-        return true;
+        return false;
     }
 }
