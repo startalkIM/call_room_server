@@ -1,0 +1,93 @@
+
+<div id="room">
+
+        <div id="content">
+    
+            <div id="main-video">
+    
+                <!--big videos-->
+    
+            </div>
+    
+            <div id="logo">
+                <button class="btn btn--xl btn--green btn--fab mdi md-fullscreen" lx-ripple ng-click="goFullscreen()" title="全屏"></button> <!--fullscreen-->
+            </div>
+    
+            <div id="room-name">{{topic}}</div>
+            <div class="mb" align="right" style=" padding-bottom: 5px; " id="buttonActions"> 
+                <!--eliminado class action de los botones para cambiar el css-->
+                <!--aumentado el tamaño de los iconos con css (room.css)-->
+                <div>
+                    <button class="btn btn--xl btn--brown btn--fab mdi md-person" lx-ripple ng-click="disableMainSpeaker()" id="buttonMainSpeaker" title="自动切换演讲者镜头"></button><!--disable Main Speaker-->
+                    <p style="font-size: 13px; color: #fff; padding-top: 18px;">自动切换</p>
+                </div>
+                <div>
+                    <button class="btn btn--xl btn--teal btn--fab mdi md-volume-up" lx-ripple ng-click="onOffVolume()" id="buttonVolume" title="关闭声音"></button> <!--mute audio-->
+                    <p style="font-size: 13px; color: #fff; padding-top: 18px;">话筒</p>
+                </div>
+                <div>
+                    <button class="btn btn--xl btn--red btn--fab mdi md-call-end " lx-ripple ng-click="leaveRoom()" id="buttonLeaveRoom" title="离开房间"></button> <!--colgar-->
+                    <p style="font-size: 13px; color: #fff; padding-top: 18px;">挂断</p>
+                </div>
+                <div>
+                    <button class="btn btn--xl btn--grey btn--fab mdi md-videocam" lx-ripple ng-click="onOffVideocam()" id="buttonVideocam" title="关闭视频"></button> <!--mute video-->
+                    <p style="font-size: 13px; color: #fff; padding-top: 18px;">摄像头</p>
+                </div>
+                <!--<button class="btn btn--xl btn--orange btn--fab mdi md-desktop-mac " lx-ripple ng-click="shareScreen()" id="buttonShareScreen" title="分享桌面"></button> --><!--compartir escritorio-->
+            </div>
+    
+            <div id="participants" class="swiper-container ">
+                <div class="swiper-wrapper" id="participants-swiper-wrapper">
+                    <!--small videos-->
+                    
+                </div>
+            </div>
+        </div>
+        <script>
+            var swiper = new Swiper('.swiper-container', {
+                observer:true,			
+                observeParents:true,
+                slidesPerView: 5,
+                paginationClickable: true,
+                spaceBetween: 30
+            });
+
+            $('#main-video').on('click', function(){
+                $('#participants').toggleClass('hide')
+            })
+        </script>
+    
+    
+        <!--CHAT--> 
+    
+        <div class="toggler" style="width: 20%;height: 100%;float: right" >
+            <div id="effect" style="display:none">
+                <!--head-->
+                <div>
+                    <strong>Chat</strong>
+                    <button class="btn btn--s btn--blue btn--icon mdi md-close" lx-ripple ng-click="toggleChat()" id="button"></button> <!--close-->
+                </div>
+    
+                <div id="chatDiv" style="height: 30em;  overflow: scroll;">
+                    <div id="messages">
+                        <ul class="list" >
+        
+                            <!--chat messages with scroll-->
+        
+                        </ul>
+                    </div>
+                </div>
+    
+                <!--message and button to send-->
+                <div>
+                    <form>
+                        <lx-text-field label="Message">
+                            <input id="inputMessage" type="text" ng-model="message">
+                        </lx-text-field>
+                        <button type="submit" class="btn btn--m btn--green btn--raised" lx-ripple ng-click="sendMessage()">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    

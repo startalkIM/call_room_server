@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Conference Room</title>
+<meta name="author" content="kurento.org">
+<link rel="shortcut icon" href="conferenceFile/img/starTalk.png" type="image/png" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+
+<!-- Bower CSS styles -->
+<link type="text/css" rel="stylesheet"
+	href="webjars/jquery-ui/jquery-ui.min.css">
+<link type="text/css" rel="stylesheet"
+	href="webjars/material-design-iconic-font/css/material-design-iconic-font.min.css">
+<link type="text/css" rel="stylesheet"
+	href="webjars/lumx/dist/css/lumx.css">
+
+<!-- Custom CSS styles -->
+<link type="text/css" rel="stylesheet" href="conferenceFile/css/swiper.min.css?v=0.0.7" />
+<link type="text/css" rel="stylesheet" href="conferenceFile/css/room.css?v=0.0.7" />
+<link type="text/css" rel="stylesheet" href="conferenceFile/css/googleapis-fonts.css?v=0.0.7">
+
+<!-- qt dependencies --->
+<script src="conferenceFile/js/qcwebchannel.js?v=0.0.7"></script>
+
+<script src="conferenceFile/js/adapter-latest.js?v=0.0.7"></script>
+<!-- Bower JavaScript dependencies -->
+<script src="webjars/jquery/dist/jquery.min.js"></script>
+<script src="webjars/jquery-ui/jquery-ui.min.js"></script>
+<script src="webjars/angular/angular.min.js"></script>
+<script src="webjars/angular-route/angular-route.js"></script>
+<script src="webjars/angular-fullscreen/src/angular-fullscreen.js"></script>
+<script src="webjars/velocity/velocity.js"></script>
+<script src="webjars/moment/min/moment-with-locales.min.js"></script>
+<script src="webjars/lumx/dist/js/lumx.min.js"></script>
+<script src="webjars/EventEmitter.js/EventEmitter.min.js"></script>
+
+<!-- Kurento JavaScript dependencies -->
+<script src="./js/kurento-utils.js?v=0.0.7"></script>
+<script src="./js/kurento-jsonrpc.js?v=0.0.7"></script>
+<script src="./js/KurentoRoom.js?v=0.0.7"></script>
+
+<!-- Custom JavaScript dependencies -->
+<script src="conferenceFile/js/swiper.min.js?v=0.0.7"></script>
+<script src="conferenceFile/js/main.js?v=0.0.7"></script>
+<script src="conferenceFile/angular/call/callController.js?v=0.0.7"></script>
+<script src="conferenceFile/angular/login/loginController.js?v=0.0.7"></script>
+<script src="conferenceFile/angular/services/Participants.js?v=0.0.7"></script>
+<script src="conferenceFile/angular/services/serviceParticipant.js?v=0.0.7"></script>
+<script src="conferenceFile/angular/services/serviceRoom.js?v=0.0.7"></script>
+</head>
+
+<body ng-app="kurento_room">
+	<div ng-view>
+		<!--display the view (login/call) with route system-->
+	</div>
+</body>
+</html>

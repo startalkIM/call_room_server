@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="shortcut icon" href="singleFile/images/favicon.ico"  />
+    <meta charset="UTF-8">
+    <title>实时聊天</title>
+    <script src="singleFile/qwebchannel.js"></script>
+    <style>
+        * { padding: 0; margin: 0; }
+
+        .bg_blur {
+             width: 100vw;
+            height: 100vh;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            -webkit-filter: blur(100px);
+            -moz-filter: blur(100px);
+            -o-filter: blur(100px);
+            -ms-filter: blur(100px);
+            filter: blur(100px);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+         html, body {
+             height: 100vh;
+             padding: 0;
+             margin: 0;
+         }
+        video{
+            object-fit: contain;
+        }
+        .page{
+            position:relative;
+            display: block;
+            margin:0 auto;
+            width: 100%;
+            height:100%;
+        }
+        .normal {
+            width: 20vmin;
+            height: 20vmin;
+            bottom: 98px;
+            right: 42px;
+            position: absolute;
+            cursor: pointer;
+            z-index: 999;
+        }
+        .actived{
+            width:100%;
+            height:100%;
+        }
+        .btn{
+            cursor: pointer;
+            outline: none;
+        }
+         .btn-wrapper {
+             position: absolute;
+             bottom: 10px;
+             left: 50%;
+            transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+         }
+         .btn-wrapper .btn {
+             width: 40px;
+             height: 40px;
+             border-radius: 50%;
+             overflow: hidden;
+             border: none;
+         }
+
+         .btn-wrapper.online .btn-accept, .btn-wrapper.online .btn-deny {
+             display: none;
+         }
+         .btn-wrapper .btn-dis {
+             display: none;
+         }
+         .btn-accept {
+             background-image: url('singleFile/images/answer.png');
+             background-position: center;
+             background-size: cover;
+         }
+        .btn-camera {
+            background-image: url('singleFile/images/camera.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-camera_disable {
+            background-image: url('singleFile/images/cameraDisable.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-minimize {
+            background-image: url('singleFile/images/minimize.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-maxmize {
+            background-image: url('singleFile/images/maxmize.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-microphone {
+            background-image: url('singleFile/images/microphone.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-microphone_disable {
+            background-image: url('singleFile/images/microphoneDisable.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-voice {
+            background-image: url('singleFile/images/voice.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-mute {
+            background-image: url('singleFile/images/mute.png');
+            background-position: center;
+            background-size: cover;
+        }
+        .btn-reversal {
+            background-image: url('singleFile/images/reversal.png');
+            background-position: center;
+            background-size: cover;
+        }
+
+         .btn-deny, .btn-dis {
+            background-image: url('singleFile/images/hangup.png');
+             background-position: center;
+             background-size: cover;
+         }
+         .btn-deny, .btn-dis, .btn-accept {
+             background-size: 40px 40px;
+             cursor: pointer;
+             outline: none;
+         }
+
+         .btn-wrapper.online .btn-dis {
+             display: inline-block;
+         }
+         #btn_deny {
+             margin-right: 100px;
+         }
+         .invite_wrapper {
+             width: 100%;
+             height: 100%;
+             position: absolute;
+             left: 0;
+             top: 0;
+             background-size: 100% 100%;
+             background-repeat: no-repeat;
+         }
+
+        .invite_blur{
+            float: left;
+            width: 100%;
+            height: 100%;
+            background: url('http://img1.qunarzz.com/m_appPromotion/wap/1805/b9/02d9a1cfacacfd02.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            -webkit-filter: blur(100px);
+            -moz-filter: blur(100px);
+            -o-filter: blur(100px);
+            -ms-filter: blur(100px);
+            filter: blur(100px);
+        }
+         .invite_center {
+             position: absolute;
+             left: 50%;
+             top: 50%;
+             transform: translate(-50%, -50%);
+             -webkit-transform: -webkit-translate(-50%, -50%);
+         }
+         .invite_profile {
+             width: 120px;
+             height: 120px;
+             border-radius: 50%;
+             overflow: hidden;
+             margin: 0 auto;
+         }
+         .invite_profile img {
+            width: 100%;
+            height: 100%;
+        }
+         .invite_text {
+             margin-top: 26px;
+             font-size: 16px;
+             color: #fff;
+         }
+    </style>
+</head>
+<body style="overflow:hidden" scroll="no">
+    <div id="bg_blur" class="bg_blur"></div>
+<div class="page">
+    <video autoplay id="remote" class="actived"></video>
+    <video autoplay id="local" muted class="normal"></video>
+    <div id="invite_wrapper" class="invite_wrapper">
+        <div id="invite_profile" class="invite_blur"></div>
+        <div class="invite_center">
+                <div id="invite_profile" class="invite_profile"><img id="invite_profile_img" src="" draggable="false"></div>
+                <p class="invite_text"></p>
+        </div>
+    </div>
+    <div class="btn-wrapper online" id="btn_wrapper">
+        <input class="btn btn-deny" type="button" id="btn_deny" title="拒绝" value="" onclick="deny()" />
+        <input class="btn btn-accept" type="button" id="btn_accept" title="接受" value="" onclick="accept_rtc()" />
+        <input class="btn btn-dis" type="button" id="btn_disconnect" title="挂断" value="" onclick="close_rtc()" />
+        <input class="btn btn-camera" type="button" id="btn_video_mute" title="关闭/打开摄像头" value="" onclick="toggleVideoMute()" />
+        <input class="btn btn-microphone " type="button" id="btn_audio_mute" title="关闭/打开麦克风" value="" onclick="toggleAudioMute()" />
+        <input class="btn btn-reversal" type="button" id="btn_switch" title="切换摄像头" value="" onclick="switchCamera()" />
+        <input class="btn btn-maxmize" type="button" id="btn_toggle_fullscreen" title="放大/缩小" value="" onclick="toggleFullScreen()" />
+    </div>
+</div>
+<script src="singleFile/jquery-3.4.1.min.js?v=0.0.60"></script>
+<script src="singleFile/client_api.js?v=0.0.60"></script>
+<script src="singleFile/sdputils.js?v=0.0.60"></script>
+<script src="singleFile/adapter-latest.js?v=0.0.60"></script>
+<script src="singleFile/main.js?v=0.0.60"></script>
+<script>
+ logUtil = function(data) {
+	console.log(data);
+};
+</script>
+</body>
+</html>
+

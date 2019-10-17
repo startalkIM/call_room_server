@@ -1,37 +1,25 @@
-﻿# kdiff3 ignore
-*.orig
-
-# maven ignore
-target/
-
-# eclipse ignore
-.settings/
-.project
+*~
+target
 .classpath
+.project
+.settings
+*orig
+.springBeans
+*tmp/
+*backup
+*Backup
+log.xml
+nbactions.xml
+*bower_components/
+.externalToolBuilders
 
-# idea ignore
-.idea/
-*.ipr
+.idea/*
 *.iml
-*.iws
-
-# temp ignore
-*.log
-*.cache
-*.diff
-*.patch
-*.tmp
-
-# system ignore
-.DS_Store
-Thumbs.db
-
-# package ignore (optional)
-# *.jar
-# *.war
-# *.zip
-# *.tar
-# *.tar.gz
-
-# pods ignore
-Pods/
+/kurento-room-basicapp/kurento-room-basicapp.iml
+/kurento-room-client/kurento-room-client.iml
+/kurento-room-client-js/kurento-room-client-js.iml
+/kurento-room-demo/kurento-room-demo.iml
+/kurento-room-sdk/kurento-room-sdk.iml
+/kurento-room-server/kurento-room-server.iml
+/kurento-room-test/kurento-room-test.iml
+.idea/
