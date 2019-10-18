@@ -1,13 +1,13 @@
-#音视频服务
+# 音视频服务
 
-##简介
+## 简介
 * 本项目是Startalk的音视频项目,为Startalk提供音视频能力
 * 包含单人音视频/群组会议的PC端web项目,与IOS、Android端通讯需要下载Startalk客户端
 * 基于开源项目[kurento](http://www.kurento.org)进行的二次开发
 * 主要功能：单人音视频、群组会议视频
 * 依赖的服务：kurento的kms流媒体服务器、coturn的打洞服务、Startalk的后端服务
 
-##项目结构
+## 项目结构
   * `kurento-room-sdk` - kurento提供的群视频模块JAVA SDK.
   * `kurento-room-server` - 房间管理服务，提供客户端与服务器的WebSockets API与HTTP API.
   * `kurento-room-client` - 使用WebSockets和JSON-RPC与客户端交互的Java库.
@@ -21,10 +21,10 @@
   - 推荐Centos7.x环境下部署
   - 支持WebRtc的浏览器或Startalk作客户端
   
-###KMS部署
+### KMS部署
 目前Kurento的KMS流媒体服务支持部署在Ubuntu 16.04（Xenial)和18.04 (Bionic),Centos系统下KMS需要部署在Docker上
 
-####Ubuntu下部署KMS
+#### Ubuntu下部署KMS
 
 ```
 1.更新系统选择
@@ -42,7 +42,7 @@ sudo apt-get install --yes kurento-media-server-6.0
 sudo service kurento-media-server-6.0 start
 ```
 
-####Centos Docker下部署KMS
+#### Centos Docker下部署KMS
 
 ```
 1.安装Docker
@@ -64,7 +64,7 @@ Docker Dockerfile
 docker run -d --name kms -p 8888:8888     kurento/kurento-media-server:latest
 ```
 
-###打洞服务器
+### 打洞服务器
 使用开源项目coturn
 https://github.com/coturn/coturn
 
