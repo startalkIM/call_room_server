@@ -114,7 +114,7 @@ cp turnserver.conf.default turnserver.conf
 ```
 1.下载项目
 cd /home
-git clone git@gitlab.corp.qunar.com:qchat/kurento-room.git
+git clone xxxx
 2.修改项目配置
 vim /home/kurento-room/kurento-room-server/src/main/resources/app.properties
 -----------------------------------------------------------------------------

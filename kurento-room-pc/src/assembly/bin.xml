@@ -50,12 +50,6 @@
 			<destName>${project.artifactId}.properties</destName>
 			<filtered>true</filtered>
 		</file>
-		<file>
-			<source>package/files/keystore.jks</source>
-			<outputDirectory>files</outputDirectory>
-			<destName>keystore.jks</destName>
-			<filtered>false</filtered>
-		</file>
 	</files>
 
 	<fileSets>
@@ -68,7 +62,6 @@
 				<exclude>files/application.conf</exclude>
 				<exclude>files/log4j.properties</exclude>
 				<exclude>files/application.properties</exclude>
-				<exclude>files/keystore.jks</exclude>
 			</excludes>
 			<filtered>true</filtered>
 		</fileSet>
