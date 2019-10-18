@@ -123,7 +123,7 @@ public class RoomController {
 
                 turnUrlList.forEach(turnUrl->{
                     JsonObject turn1 = new JsonObject();
-                    turn1.addProperty("urls", "turn:qtalktv.qunar.com:3478");
+                    turn1.addProperty("urls", turnUrl);
                     turn1.addProperty("username", turnUsername);
                     turn1.addProperty("credential", turnPassword);
                     turns.add(turn1);
