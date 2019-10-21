@@ -54,14 +54,13 @@ sudo systemctl start docker
 
 2.下载Kurento Docker镜像 
 cd /home
-mkdir kms
+sudo mkdir kms
 cd kms
 sudo yum install git 
-git clone https://github.com/Kurento/kurento-docker.git
+sudo git clone https://github.com/Kurento/kurento-docker.git
 cd kurento-docker/docker
 3.运行镜像（映射KMS的8888端口到Centos服务器）
-Docker Dockerfile
-docker run -d --name kms -p 8888:8888     kurento/kurento-media-server:latest
+sudo docker run -d --name kms -p 8888:8888     kurento/kurento-media-server:latest
 ```
 
 ### 打洞服务器
@@ -70,53 +69,70 @@ https://github.com/coturn/coturn
 
 ```
 1.下载安装依赖
-wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
-tar zxvf libevent-2.0.21-stable.tar.gz
-cd libevent-2.0.21-stable && ./configure
-make && make install
+cd /home
+sudo wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
+sudotar zxvf libevent-2.0.21-stable.tar.gz
+cd libevent-2.0.21-stable 
+sudo ./configure
+sudo make && sudo make install
 
-sudo yum install openssl-devel
+sudo yum install openssl-devel -y
 
 2.下载编译运行coturn
-git clone https://github.com/coturn/coturn
+cd /home
+sudo git clone https://github.com/coturn/coturn
 cd coturn 
-./configure 
-make 
-make install
+sudo ./configure 
+sudo make 
+sudo make install
 
-3.修改配置文件
+3.生成证书(如果有公证书，可以跳过此步)
+sudo yum install openssl
+sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/startalk_pkey.pem -out /etc/startalk.pem -days 99999 –nodes
+
+4.修改配置文件
 cd /usr/local/etc/
 #备份一份默认的配置文件
-cp turnserver.conf.default turnserver.conf
+sudo cp turnserver.conf.default turnserver.conf
+sudo vim turnserver.conf
 #然后根据服务器情况修改turnserver.conf中的配置
 
-    relay-device=eth0   
-    listening-ip=172.xx.xx.xx   #内网地址
+    relay-device=eth0
+    listening-ip=172.xx.xx.xx
+    #内网地址
     listening-port=3478
     tls-listening-port=5349
-    relay-ip=172.xx.xx.xx       #内网地址
-    external-ip=47.xx.xx.xx     #外网地址
+    #内网地址
+    relay-ip=172.xx.xx.xx
+    #外网地址
+    external-ip=47.xx.xx.xx
     relay-threads=50
     lt-cred-mech
-    cert=/etc/turn_server_cert.pem  #ssl证书
+    #ssl证书
+    cert=/etc/turn_server_cert.pem
     pkey=/etc/turn_server_pkey.pem
     pidfile="/var/run/turnserver.pid"
     min-port=49152
     max-port=65535
-    user=startalk:startalk  #用户名密码
+    #用户名密码
+    user=startalk:startalk
+    mobility
+    no-cli
+    no-sslv2
+    no-sslv3
     
-4.启动coturn服务
+5.启动coturn服务
     turnserver -v -r ylbs -a -o -c /usr/local/etc/turnserver.conf   
 ```
-> 注意打开防火墙的相关接口，然后重启防火墙，可以去https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/测试打洞服务是否部署成功*
+> 注意打开防火墙的相关接口，然后重启防火墙，可以去[https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/]测试打洞服务是否部署成功*
 
 ### 音视频JAVA服务
 ```
 1.下载项目
 cd /home
-git clone xxxx
+sudo git clone xxxx(克隆本项目)
 2.修改项目配置
-vim /home/kurento-room/kurento-room-server/src/main/resources/app.properties
+sudo vim /home/call_room_server/kurento-room-server/src/main/resources/app.properties
 -----------------------------------------------------------------------------
     #房间最大人数
     kmsLimit=100
@@ -152,12 +168,17 @@ vim /home/kurento-room/kurento-room-server/src/main/resources/app.properties
     redis_sentinel_pass=xxxx
     redis_sentinel_table=1
 -----------------------------------------------------------------------------
-3.编译打包项目
-cd /home/kurento-room
-mvn clean package -am -pl kurento-room-pc -DskipTests
+3.配置ssl自签名证书(有公证书可以用公证书)
+#生成证书
+sudo keytool -genkey -alias startalk -keyalg RSA -keystore /home/call_room_server/kurento-room-pc/files/startalk.keystore
+设置自己的密码，然后修改spring boot的配置,将server.ssl.key-store-password设置成刚才的密码
+sudo vim /home/call_room_server/kurento-room-pc/files/application.properties
+4.编译打包项目
+cd /home/call_room_server
+sudo mvn clean package -am -pl kurento-room-pc -DskipTests
 cd kurento-room-pc/target
-unzip -o kurento-room-pc-6.6.0.zip
-chmod 755 kurento-room-pc-6.6.0/bin/*
-4.启动项目
+sudo unzip -o kurento-room-pc-6.6.0.zip
+sudo chmod 755 kurento-room-pc-6.6.0/bin/*
+5.启动项目
 sudo /home/kurento-room/kurento-room-pc/target/kurento-room-pc-6.6.0/bin/start.sh
 ```
