@@ -130,7 +130,7 @@ sudo vim turnserver.conf
 ```
 1.下载项目
 cd /home
-sudo git clone xxxx(克隆本项目)
+sudo git clone xxxx(clone本项目)
 2.修改项目配置
 sudo vim /home/call_room_server/kurento-room-server/src/main/resources/app.properties
 -----------------------------------------------------------------------------
@@ -168,11 +168,11 @@ sudo vim /home/call_room_server/kurento-room-server/src/main/resources/app.prope
     redis_sentinel_pass=xxxx
     redis_sentinel_table=1
 -----------------------------------------------------------------------------
-3.配置ssl自签名证书(有公证书可以用公证书)
-#生成证书
-sudo keytool -genkey -alias startalk -keyalg RSA -keystore /home/call_room_server/kurento-room-pc/files/startalk.keystore
-设置自己的密码，然后修改spring boot的配置,将server.ssl.key-store-password设置成刚才的密码
-sudo vim /home/call_room_server/kurento-room-pc/files/application.properties
+3.配置https
+项目中默认配置的是kurento提供的自签证书，实际生产项目中换成自己的CA证书，或者使用Java的Keytool来自己生成证书
+sudo keytool -genkey -alias startalk -keyalg RSA -keystore /home/call_room_server/kurento-room-pc/package/files/startalk.keystore
+按照提示填写密码、城市的等信息，然后修改spring boot的配置
+sudo vim /home/call_room_server/kurento-room-pc/package/files/application.properties
 4.编译打包项目
 cd /home/call_room_server
 sudo mvn clean package -am -pl kurento-room-pc -DskipTests
