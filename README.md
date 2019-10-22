@@ -112,8 +112,8 @@ sudo ifconfig
     relay-threads=50
     lt-cred-mech
     #ssl证书
-    cert=/etc/turn_server_cert.pem
-    pkey=/etc/turn_server_pkey.pem
+    cert=/etc/startalk_cert.pem
+    pkey=/etc/startalk_pkey.pem
     pidfile="/var/run/turnserver.pid"
     min-port=49152
     max-port=65535
