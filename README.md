@@ -71,7 +71,7 @@ https://github.com/coturn/coturn
 1.下载安装依赖
 cd /home
 sudo wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
-sudotar zxvf libevent-2.0.21-stable.tar.gz
+sudo tar zxvf libevent-2.0.21-stable.tar.gz
 cd libevent-2.0.21-stable 
 sudo ./configure
 sudo make && sudo make install
@@ -88,14 +88,17 @@ sudo make install
 
 3.生成证书(如果有公证书，可以跳过此步)
 sudo yum install openssl
-sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/startalk_pkey.pem -out /etc/startalk.pem -days 99999 –nodes
+sudo openssl req -x509 -newkey rsa:2048 -keyout /etc/startalk_pkey.pem -out /etc/startalk_cert.pem -days 99999 –nodes
 
 4.修改配置文件
 cd /usr/local/etc/
 #备份一份默认的配置文件
 sudo cp turnserver.conf.default turnserver.conf
 sudo vim turnserver.conf
-#然后根据服务器情况修改turnserver.conf中的配置
+
+#查看网卡信息，找出公网ip与内网ip
+sudo ifconfig 
+#修改turnserver.conf中的配置
 
     relay-device=eth0
     listening-ip=172.xx.xx.xx
@@ -122,7 +125,7 @@ sudo vim turnserver.conf
     no-sslv3
     
 5.启动coturn服务
-    turnserver -v -r ylbs -a -o -c /usr/local/etc/turnserver.conf   
+sudo turnserver -v -a -o -c /usr/local/etc/turnserver.conf   
 ```
 > 注意打开防火墙的相关接口，然后重启防火墙，可以去[https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/]测试打洞服务是否部署成功*
 
@@ -131,6 +134,7 @@ sudo vim turnserver.conf
 1.下载项目
 cd /home
 sudo git clone xxxx(clone本项目)
+
 2.修改项目配置
 sudo vim /home/call_room_server/kurento-room-server/src/main/resources/app.properties
 -----------------------------------------------------------------------------
@@ -168,17 +172,21 @@ sudo vim /home/call_room_server/kurento-room-server/src/main/resources/app.prope
     redis_sentinel_pass=xxxx
     redis_sentinel_table=1
 -----------------------------------------------------------------------------
+
 3.配置https
 项目中默认配置的是kurento提供的自签证书，实际生产项目中换成自己的CA证书，或者使用Java的Keytool来自己生成证书
+
 sudo keytool -genkey -alias startalk -keyalg RSA -keystore /home/call_room_server/kurento-room-pc/package/files/startalk.keystore
 按照提示填写密码、城市的等信息，然后修改spring boot的配置
 sudo vim /home/call_room_server/kurento-room-pc/package/files/application.properties
+
 4.编译打包项目
 cd /home/call_room_server
 sudo mvn clean package -am -pl kurento-room-pc -DskipTests
 cd kurento-room-pc/target
 sudo unzip -o kurento-room-pc-6.6.0.zip
 sudo chmod 755 kurento-room-pc-6.6.0/bin/*
+
 5.启动项目
 sudo /home/kurento-room/kurento-room-pc/target/kurento-room-pc-6.6.0/bin/start.sh
 ```
