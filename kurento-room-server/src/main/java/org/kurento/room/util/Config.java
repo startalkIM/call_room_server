@@ -19,8 +19,10 @@ public class Config {
     public static final Integer REDIS_MAXIDLE = getIntProperty("redis_pool_maxIdle",100);
     public static final Integer REDIS_MAX_ACTIVE = getIntProperty("redis_pool_maxActive",200);
     public static final Integer REDIS_MAX_WAIT_MILLIS = getIntProperty("redis_pool_maxWaitMillis",5000);
-    public static final String REDIS_HOST1 = getProperty("redis_sentinel_host1");
-    public static final String REDIS_HOST2 = getProperty("redis_sentinel_host2");
+    public static final Boolean REDIS_TEST_ON_BORROW  = true;
+    public static final Boolean REDIS_TEST_ON_RETURN  = true;
+    public static final String REDIS_HOST = getProperty("redis_sentinel_host");
+    public static final Integer REDIS_POST = getIntProperty("redis_sentinel_post",6379);
     public static final String REDIS_MASTER = getProperty("redis_sentinel_master");
     public static final String REDIS_PASS = getProperty("redis_sentinel_pass");
     public static final Integer REDIS_TABLE = getIntProperty("redis_sentinel_table",2);

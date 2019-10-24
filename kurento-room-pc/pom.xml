@@ -8,7 +8,7 @@
 		<version>6.6.0</version>
 	</parent>
 	<artifactId>kurento-room-pc</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>Kurento Room PC</name>
 	<description>Kurento Room PC application</description>
@@ -121,6 +121,17 @@
 			<artifactId>spring-data-keyvalue</artifactId>
 			<version>1.2.1.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -165,24 +176,27 @@
 					<mainClass>${start-class}</mainClass>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.17</version>
 				<configuration>
-					<descriptor>src/assembly/bin.xml</descriptor>
-					<finalName>${project.artifactId}-${project.version}</finalName>
-					<appendAssemblyId>false</appendAssemblyId>
+					<includes>
+						<include>**/*Spec.*</include>
+						<include>**/*Test.*</include>
+						<include>**/*Tests.*</include>
+					</includes>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>

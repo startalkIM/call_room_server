@@ -35,11 +35,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 import com.google.gson.JsonArray;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
@@ -52,7 +56,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Import(JsonRpcConfiguration.class)
 @SpringBootApplication
-public class KurentoRoomServerApp implements JsonRpcConfigurer {
+public class KurentoRoomServerApp extends SpringBootServletInitializer implements JsonRpcConfigurer {
 
 
   public static final String KMSS_URIS_DEFAULT = Collections.singletonList(Config.KMS_URL).toString();
@@ -60,9 +64,10 @@ public class KurentoRoomServerApp implements JsonRpcConfigurer {
   private final Integer redisMaxIdle = Config.REDIS_MAXIDLE;
   private final Integer redisMaxActive =  Config.REDIS_MAX_ACTIVE;
   private final Integer redisMaxWaitMillis  =  Config.REDIS_MAX_WAIT_MILLIS;
-  private final Boolean redisTestOnBorrow  = true;
-  private final String redisHost1  =  Config.REDIS_HOST1;
-  private final String redisHost2  =  Config.REDIS_HOST2;
+  private final Boolean redisTestOnBorrow  = Config.REDIS_TEST_ON_BORROW;
+  private final Boolean redisTestOnReturn  = Config.REDIS_TEST_ON_RETURN;
+  private final String redisHost  =  Config.REDIS_HOST;
+  private final Integer redisPost  =  Config.REDIS_POST;
   private final String redisMaster  =  Config.REDIS_MASTER;
   private final String redisPass  =  Config.REDIS_PASS;
   private final Integer redisTable  = Config.REDIS_TABLE;
@@ -111,20 +116,34 @@ public class KurentoRoomServerApp implements JsonRpcConfigurer {
   }
 
   @Bean
-  @ConditionalOnMissingBean
-  public ShardedJedisSentinelPool shardedJedisSentinelPool()
-  {
-    JedisPoolConfig config = new JedisPoolConfig();
-    config.setMaxTotal(redisMaxActive);
-    config.setMaxIdle(redisMaxIdle);
-    config.setMaxWaitMillis(redisMaxWaitMillis);
-    config.setTestOnBorrow(redisTestOnBorrow);
-    List<String> masters = new ArrayList<>();
-    masters.add(redisMaster);
-    Set<String> sentinel = new HashSet<String>();
-    sentinel.add(redisHost1);
-    sentinel.add(redisHost2);
-    return new ShardedJedisSentinelPool(masters,sentinel,config,5000,redisPass,redisTable);
+  public JedisPoolConfig jedisPoolConfigFactory() {
+    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+    jedisPoolConfig.setMaxIdle(redisMaxIdle);
+    jedisPoolConfig.setMaxTotal(redisMaxActive);
+    jedisPoolConfig.setMaxWaitMillis(redisMaxWaitMillis);
+    jedisPoolConfig.setTestOnBorrow(redisTestOnBorrow);
+    jedisPoolConfig.setTestOnReturn(redisTestOnReturn);
+    return jedisPoolConfig;
+  }
+
+  @Bean
+  public JedisConnectionFactory jedisConnectionFactory() {
+    JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
+    jedisConnectionFactory.setHostName(redisHost);
+    jedisConnectionFactory.setPort(redisPost);
+    jedisConnectionFactory.setPassword(redisPass);
+    jedisConnectionFactory.setDatabase(redisTable);
+    jedisConnectionFactory.setPoolConfig(jedisPoolConfigFactory());
+    jedisConnectionFactory.afterPropertiesSet();
+    return jedisConnectionFactory;
+  }
+
+  @Bean
+  public StringRedisTemplate stringRedisTemplate() {
+    StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+    stringRedisTemplate.setConnectionFactory(jedisConnectionFactory());
+    stringRedisTemplate.afterPropertiesSet();
+    return stringRedisTemplate;
   }
 
   @Bean
@@ -153,4 +172,10 @@ public class KurentoRoomServerApp implements JsonRpcConfigurer {
     System.setProperty("java.security.egd", "file:/dev/./urandom");
     return SpringApplication.run(KurentoRoomServerApp.class, args);
   }
+
+  @Override
+  protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+    return builder.sources(KurentoRoomServerApp.class);
+  }
+
 }
