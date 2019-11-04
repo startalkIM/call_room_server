@@ -11,6 +11,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class CKeyChecker {
@@ -44,13 +45,11 @@ public class CKeyChecker {
         }
 
 
-        Set<String> tokenRedis = jedis.opsForSet().members(args.get(U) + JOINER_USER_HOST + args.get(D));
+        Set<String> tokenRedis = jedis.opsForHash().keys(args.get(U) + JOINER_USER_HOST + args.get(D)).stream().map(Object::toString).collect(Collectors.toSet());
         if (checkUserAuth(args.get(U), args.get(T), args.get(K), tokenRedis)) {
             return args.get(U) + JOINER_USER_HOST + args.get(D);
         }
         return null;
-
-
     }
 
     private Map<String, String> getUserCkeyArgs(String Ckey) {

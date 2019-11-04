@@ -60,6 +60,14 @@ kurento_room.controller('loginController', function ($scope, $http, ServiceParti
                 configuration:{iceServers:params.iceServers}
             });
 
+            //save kurento & roomName & userName in service
+            ServiceRoom.setKurento(kurento);
+            ServiceRoom.setRoomName(params.roomName);
+            ServiceRoom.setTopic(params.roomTopic);
+            ServiceRoom.setUserName(params.userName);
+            ServiceRoom.setPlat(params.plat);
+
+
             localStream.addEventListener("access-accepted", function () {
                 room.addEventListener("room-connected", function (roomEvent) {
                     var streams = roomEvent.streams;
@@ -153,12 +161,7 @@ kurento_room.controller('loginController', function ($scope, $http, ServiceParti
             localStream.init();
         });
 
-        //save kurento & roomName & userName in service
-        ServiceRoom.setKurento(kurento);
-        ServiceRoom.setRoomName(params.roomName);
-        ServiceRoom.setTopic(params.roomTopic);
-        ServiceRoom.setUserName(params.userName);
-        ServiceRoom.setPlat(params.plat);
+
 
         //redirect to call
         $window.location.href = '#/call';
