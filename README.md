@@ -127,7 +127,7 @@ sudo ifconfig
 5.启动coturn服务
 sudo turnserver -v -a -o -c /usr/local/etc/turnserver.conf   
 ```
-> 注意打开防火墙的相关接口，然后重启防火墙，可以去[这里](https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/) 测试打洞服务是否部署成功*
+> **注意打开防火墙的相关接口，然后重启防火墙，可以去[这里](https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/) 测试打洞服务是否部署成功**
 
 ### 音视频JAVA服务
 ```
