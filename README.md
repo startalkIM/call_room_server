@@ -6,6 +6,7 @@
 * 基于开源项目[kurento](http://www.kurento.org)进行的二次开发
 * 主要功能：单人音视频、群组会议视频
 * 依赖的服务：kurento的kms流媒体服务器、coturn的打洞服务、Startalk的后端服务
+* 部分文档路径请参考部署过程中代码clone的路径自行修改
 
 ## 项目结构
   * `kurento-room-sdk` - kurento提供的群视频模块JAVA SDK.
