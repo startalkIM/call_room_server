@@ -26,7 +26,7 @@ kurento_room.controller('callController', function ($scope, $window, ServicePart
         //redirect to login
         //$window.location.href = '#/login';
         if(CLIENT_API==null){
-            if($scope.plat==2){
+            if($scope.plat==2|$scope.plat==undefined){
                  window.location.href="qim://close";
              }else{
                  window.location.href="#/call?status=hangup";
