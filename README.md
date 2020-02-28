@@ -187,15 +187,15 @@ mvn clean package -am -pl kurento-room-pc -DskipTests
 cd kurento-room-pc/target  
 可以看到打包生成kurento-room-pc-6.6.0.war   
 5.将war 包放在Tomcat下启动   
-1、cd /startalk/tomcat   
-2、cp apache-tomcat-8.5.37 video  
-3、rm -rf /startalk/tomcat/video/webapps/ROOT  
-4、将编译打包产生的kurento-room-pc-6.6.0.war 放在Tomcat下  
+ 5.1、cd /startalk/tomcat   
+ 5.2、cp apache-tomcat-8.5.37 video  
+ 5.3、rm -rf /startalk/tomcat/video/webapps/ROOT  
+ 5.4、将编译打包产生的kurento-room-pc-6.6.0.war 放在Tomcat下  
    mv kurento-room-pc-6.6.0.war /startalk/tomcat/video/ROOT.war
-5、将服务的监听端口改成9004  
+ 5.5、将服务的监听端口改成9004  
   vim /startalk/tomcat/video/conf/server.xml 第60行8080修改为9004 
-5、启动服务
-   cd /startalk/tomcat/video && ./bin/startup.sh
-6、查看服务是否启动
+ 5.6、启动服务
+   cd /startalk/tomcat/video && ./bin/startup.sh 
+ 5.7、查看服务是否启动
   netstat -antp | grep 9004
 ```
