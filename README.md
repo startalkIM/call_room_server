@@ -137,7 +137,7 @@ cd /home
 sudo git clone xxxx(clone本项目)
 
 2.修改项目配置
-sudo vim ./kurento-room-server/src/main/resources/app.properties
+sudo vim ./kurento-room-pc/src/main/resources/app.properties
 -----------------------------------------------------------------------------
     #房间最大人数
     kmsLimit=100
